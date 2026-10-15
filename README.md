@@ -5,3 +5,4 @@ One small build every day — Python, AI/ML, JavaScript, Java and web experiment
 | Day | Project | What it is |
 |-----|---------|------------|
 | 001 | [neural-net-scratch](day-001-neural-net-scratch/) | Feedforward neural network from scratch in pure Python (no numpy) — XOR 4/4, 2D blobs 99% |
+| 002 | [markdown-toc](day-002-markdown-toc/) | Tiny Node.js CLI that builds a clickable table of contents from a Markdown file's headings |
