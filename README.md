@@ -9,3 +9,4 @@ One small build every day — Python, AI/ML, JavaScript, Java and web experiment
 | 003 | [ascii-progress-bar](day-003-ascii-progress-bar/) | Tiny dependency-free ASCII progress bar for Node.js terminal scripts |
 | 004 | [tic-tac-toe-minimax](day-004-tic-tac-toe-minimax/) | Tic-tac-toe with an unbeatable minimax AI (playable + AI-vs-AI demo) |
 | 005 | [password-strength-meter](day-005-password-strength-meter/) | Password strength scorer: one-function JS meter with entropy estimate and plain-language tips |
+| 006 | [morse-code-cli](day-006-morse-code-cli/) | Morse code encoder/decoder CLI in Node.js |
