@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradient Palette Generator</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #111; color: #eee; min-height: 100vh; padding: 2rem 1rem;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  h1 { font-size: 1.4rem; margin: 0 0 .25rem; font-weight: 600; }
+  p.sub { color: #999; margin: 0 0 1.5rem; font-size: .9rem; }
+  .picker { display: flex; gap: .75rem; align-items: center; margin-bottom: 1.75rem; }
+  input[type="color"] { width: 3rem; height: 3rem; border: none; padding: 0; background: none; cursor: pointer; }
+  input[type="text"] {
+    font-family: monospace; font-size: 1rem; padding: .5rem .75rem; width: 9rem;
+    background: #1c1c1c; border: 1px solid #333; border-radius: .5rem; color: #eee;
+  }
+  button {
+    font-size: .95rem; padding: .55rem 1.1rem; border-radius: .5rem; cursor: pointer;
+    border: 1px solid #444; background: #222; color: #eee;
+  }
+  button:hover { background: #2c2c2c; }
+  .hero {
+    width: min(46rem, 100%); height: 7rem; border-radius: .75rem; margin-bottom: 1.75rem;
+    border: 1px solid #2a2a2a; transition: background 200ms;
+  }
+  .row-label { width: min(46rem, 100%); font-size: .8rem; color: #888; text-transform: uppercase; letter-spacing: .08em; margin: 1rem 0 .4rem; }
+  .swatches { display: flex; gap: .4rem; width: min(46rem, 100%); }
+  .swatch {
+    flex: 1; height: 4.5rem; border-radius: .5rem; cursor: pointer; position: relative;
+    border: 1px solid rgba(255,255,255,.08); transition: transform 120ms;
+  }
+  .swatch:hover { transform: translateY(-4px); }
+  .swatch span {
+    position: absolute; bottom: .3rem; left: .45rem; font-family: monospace; font-size: .68rem;
+    color: rgba(255,255,255,.9); text-shadow: 0 1px 2px rgba(0,0,0,.6); opacity: 0;
+    transition: opacity 120ms; pointer-events: none;
+  }
+  .swatch:hover span, .swatch.copied span { opacity: 1; }
+  .swatch.copied::after {
+    content: "copied"; position: absolute; top: .3rem; left: .45rem; font-size: .68rem;
+    color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  }
+  footer { margin-top: 2rem; color: #666; font-size: .8rem; }
+</style>
+</head>
+<body>
+  <h1>Gradient Palette Generator</h1>
+  <p class="sub">Pick a colour &mdash; get a ready-to-use palette. Click any swatch to copy its hex.</p>
+
+  <div class="picker">
+    <input type="color" id="colorInput" value="#7c5cff" aria-label="base colour">
+    <input type="text" id="hexInput" value="#7c5cff" spellcheck="false" aria-label="hex value">
+    <button id="randomBtn" type="button">Random</button>
+  </div>
+
+  <div class="hero" id="hero"></div>
+
+  <div id="groups"></div>
+
+  <footer>Small demo exercise &middot; everything runs locally in your browser.</footer>
+
+<script src="palette.js"></script>
+<script>
+(function () {
+  var colorInput = document.getElementById('colorInput');
+  var hexInput = document.getElementById('hexInput');
+  var hero = document.getElementById('hero');
+  var groups = document.getElementById('groups');
+  var randomBtn = document.getElementById('randomBtn');
+
+  function render(base) {
+    var p = generatePalette(base);
+    var all = [p.base].concat(p.tints).concat(p.shades)
+      .concat([p.complementary]).concat(p.analogous).concat(p.triadic);
+    hero.style.background = toCssGradient(all);
+
+    var defs = [
+      ['Base', [p.base]],
+      ['Tints', p.tints],
+      ['Shades', p.shades],
+      ['Complementary', [p.complementary]],
+      ['Analogous', p.analogous],
+      ['Triadic', p.triadic],
+    ];
+    groups.innerHTML = '';
+    defs.forEach(function (d) {
+      var label = document.createElement('div');
+      label.className = 'row-label';
+      label.textContent = d[0];
+      groups.appendChild(label);
+      var row = document.createElement('div');
+      row.className = 'swatches';
+      d[1].forEach(function (hex) {
+        var s = document.createElement('div');
+        s.className = 'swatch';
+        s.style.background = hex;
+        s.title = hex + ' — click to copy';
+        var cap = document.createElement('span');
+        cap.textContent = hex;
+        s.appendChild(cap);
+        s.addEventListener('click', function () {
+          navigator.clipboard.writeText(hex).catch(function () {});
+          s.classList.add('copied');
+          setTimeout(function () { s.classList.remove('copied'); }, 900);
+        });
+        row.appendChild(s);
+      });
+      groups.appendChild(row);
+    });
+  }
+
+  function setBase(v) {
+    try {
+      var hex = normalizeHex(v);
+      colorInput.value = hex;
+      hexInput.value = hex;
+      render(hex);
+    } catch (e) {
+      hexInput.style.borderColor = '#a33';
+      setTimeout(function () { hexInput.style.borderColor = '#333'; }, 800);
+    }
+  }
+
+  colorInput.addEventListener('input', function () { setBase(colorInput.value); });
+  hexInput.addEventListener('change', function () { setBase(hexInput.value); });
+  randomBtn.addEventListener('click', function () {
+    var h = Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0');
+    setBase('#' + h);
+  });
+
+  setBase('#7c5cff');
+})();
+</script>
+</body>
+</html>
