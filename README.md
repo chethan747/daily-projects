@@ -11,3 +11,4 @@ One small build every day — Python, AI/ML, JavaScript, Java and web experiment
 | 005 | [password-strength-meter](day-005-password-strength-meter/) | Password strength scorer: one-function JS meter with entropy estimate and plain-language tips |
 | 006 | [morse-code-cli](day-006-morse-code-cli/) | Morse code encoder/decoder CLI in Node.js |
 | 007 | [gradient-palette-generator](day-007-gradient-palette-generator/) | Browser-based colour palette generator: tints, shades, harmony swatches, copy-on-click hex codes |
+| 008 | [heatmap-calendar](day-008-heatmap-calendar/) | GitHub-style contribution heatmap generator (Python + matplotlib) |
