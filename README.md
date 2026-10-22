@@ -12,3 +12,4 @@ One small build every day — Python, AI/ML, JavaScript, Java and web experiment
 | 006 | [morse-code-cli](day-006-morse-code-cli/) | Morse code encoder/decoder CLI in Node.js |
 | 007 | [gradient-palette-generator](day-007-gradient-palette-generator/) | Browser-based colour palette generator: tints, shades, harmony swatches, copy-on-click hex codes |
 | 008 | [heatmap-calendar](day-008-heatmap-calendar/) | GitHub-style contribution heatmap generator (Python + matplotlib) |
+| 009 | [csv-column-stats](day-009-csv-column-stats/) | Tiny CLI that prints per-column stats and ASCII charts for any CSV file |
